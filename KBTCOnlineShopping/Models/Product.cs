@@ -22,5 +22,9 @@ namespace KBTCOnlineShopping.Models
         public long SubCategoryId { get; set; }
         [ForeignKey("SubCategoryId")]
         public SubCategory SubCategory { get; set; }
+
+        public int Quantity { get; set; }
+
+
     }
 }

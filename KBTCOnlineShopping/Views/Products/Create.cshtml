@@ -32,13 +32,21 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Photo" class="control-label"></label>
-                <div class="custom-file">
-                    <input asp-for="Photo" class="form-control custom-file-input" />
-                    <label class="custom-file-label">Choose File...</label>
+            @*<div class="form-group">
+                <label asp-for="Photo" class="control-label">Choose File...</label>
+                <div class="custom-file" style="border:1px solid grey;" lang="es">
+                    <input type="file" style="margin:20px;" aria-describedby="fileHelp" asp-for="Photo" class="form-control custom-file-input" />
+                    <label class="custom-file-label" for="exampleInputFile"></label>
                 </div>
+            </div>*@
+        <div class="form-group">
+            <label asp-for="Photo" class="control-label">Photo</label>
+            <div class="custom-file" id="customFile" lang="es">
+
+                <input type="file" class="form-control" id="exampleInputFile" aria-describedby="fileHelp" asp-for="Photo" style="padding-right:120px" />
+                <label class="custom-file-label" for="exampleInputFile"></label>
             </div>
+        </div>
             <div class="form-group">
                 <label asp-for="SubCategoryId" class="control-label"></label>
                 <select asp-for="SubCategoryId" class="form-control" asp-items="ViewBag.SubCategoryId"></select>

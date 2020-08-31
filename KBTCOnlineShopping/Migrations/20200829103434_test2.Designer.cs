@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace KBTCOnlineShopping.Data.Migrations
+namespace KBTCOnlineShopping.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200822092637_AddSubCategory1")]
-    partial class AddSubCategory1
+    [Migration("20200829103434_test2")]
+    partial class test2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,10 +43,13 @@ namespace KBTCOnlineShopping.Data.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("CategoryId")
+                    b.Property<long?>("CategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FilePath")
@@ -58,11 +61,19 @@ namespace KBTCOnlineShopping.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<long>("SubCategoryId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Product");
+                    b.HasIndex("SubCategoryId");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("KBTCOnlineShopping.Models.SubCategory", b =>
@@ -290,9 +301,13 @@ namespace KBTCOnlineShopping.Data.Migrations
 
             modelBuilder.Entity("KBTCOnlineShopping.Models.Product", b =>
                 {
-                    b.HasOne("KBTCOnlineShopping.Models.Category", "Category")
+                    b.HasOne("KBTCOnlineShopping.Models.Category", null)
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("KBTCOnlineShopping.Models.SubCategory", "SubCategory")
+                        .WithMany()
+                        .HasForeignKey("SubCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace KBTCOnlineShopping.Data.Migrations
+namespace KBTCOnlineShopping.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200825082843_Description")]
-    partial class Description
+    [Migration("20200829095747_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,24 @@ namespace KBTCOnlineShopping.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("KBTCOnlineShopping.Models.Order", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("OrderDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderPerson")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("KBTCOnlineShopping.Models.Product", b =>
@@ -71,6 +89,24 @@ namespace KBTCOnlineShopping.Data.Migrations
                     b.HasIndex("SubCategoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("KBTCOnlineShopping.Models.ProductOrder", b =>
+                {
+                    b.Property<long>("OrderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProducId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("OrderId", "ProducId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductOrder");
                 });
 
             modelBuilder.Entity("KBTCOnlineShopping.Models.SubCategory", b =>
@@ -307,6 +343,19 @@ namespace KBTCOnlineShopping.Data.Migrations
                         .HasForeignKey("SubCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("KBTCOnlineShopping.Models.ProductOrder", b =>
+                {
+                    b.HasOne("KBTCOnlineShopping.Models.Order", "Order")
+                        .WithMany("ProductOrders")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KBTCOnlineShopping.Models.Product", "Product")
+                        .WithMany("ProductOrders")
+                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("KBTCOnlineShopping.Models.SubCategory", b =>
